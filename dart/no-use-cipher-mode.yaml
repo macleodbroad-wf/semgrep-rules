@@ -1,0 +1,49 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: no-use-cipher-mode
+    message: No use of cipher mode. This mode is not recommended because it opens the door to various security exploits.
+    severity: MEDIUM
+    metadata:
+      likelihood: LOW
+      impact: HIGH
+      confidence: MEDIUM
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-326: Inadequate Encryption Strength"
+        - "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+      references:
+        - https://cwe.mitre.org/data/definitions/326.html
+        - https://cwe.mitre.org/data/definitions/327.html
+      technology:
+        - cryptography
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#no-use-cipher-mode
+    languages:
+      - dart
+    pattern-either:
+      - pattern-regex: (?i)(AesMode\.ECB)
+      - pattern-regex: (?i)(AesMode\.OFB)
+      - pattern-regex: (?i)(AesMode\.CTS)
+      - pattern-regex: (?i)(AesMode\.CFB)
+      - pattern-regex: (?i)(AesMode\.CBC)
+      - pattern-regex: (?i)(AesMode\.GCM)
+      - pattern-regex: (?i)(AesMode\.CCM)
+      - pattern-regex: (?i)(AesMode\.OCB)
+      - pattern-regex: (?i)(AesMode\.CTR)
+    paths:
+      include:
+        - "*.dart"

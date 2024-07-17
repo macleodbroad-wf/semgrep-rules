@@ -1,0 +1,42 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: weak-hashing-function-md5-or-sha1
+    message: MD5 or SHA1 have known collision weaknesses and are no longer considered strong hashing algorithms.
+    severity: MEDIUM
+    metadata:
+      likelihood: LOW
+      impact: MODERATE
+      confidence: MEDIUM
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-326: Inadequate Encryption Strength"
+      references:
+        - https://cwe.mitre.org/data/definitions/326.html
+      technology:
+        - cryptography
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#weak-hashing-function-md5-or-sha1
+    languages:
+      - dart
+    pattern-either:
+      - pattern-regex: md5\..*\(
+      - pattern-regex: hmacMd5\..*\(
+      - pattern-regex: sha1\..*\(
+      - pattern-regex: hmacSha1\..*\(
+    paths:
+      include:
+        - "*.dart"

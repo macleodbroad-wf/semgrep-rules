@@ -1,0 +1,41 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: http-without-ssl
+    message: Insecure implementation of SSL. Trusting all the certificates or accepting self signed certificates is a critical security hole. This application is vulnerable to MITM attacks.
+    severity: HIGH
+    metadata:
+      likelihood: MEDIUM
+      impact: MODERATE
+      confidence: MEDIUM
+      category: security
+      subcategory:
+        - vuln
+      owasp:
+        - "M3: Insufficient Transport Layer Protection"
+      references:
+        - https://owasp.org/www-project-mobile-top-10/2014-risks/m3-insufficient-transport-layer-protection
+      technology:
+        - http
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#no-use-connection-without-ssl
+    languages:
+      - dart
+    pattern-either:
+        - pattern-regex: \.bindSecure\(\n?('|")http:\/\/
+        - pattern-regex: XmlDocument\.parse\(
+        - pattern-regex: readAsStringSync\(
+    paths:
+      include:
+        - "*.dart"

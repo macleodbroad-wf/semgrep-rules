@@ -1,0 +1,40 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: send-sms
+    message: Sensitive information should never be sent over insecure channels such as sms.
+    severity: LOW
+    metadata:
+      likelihood: LOW
+      impact: MODERATE
+      confidence: LOW
+      category: security
+      subcategory:
+        - vuln
+      owasp:
+        - "M3: Insufficient Transport Layer Protection"
+      references:
+        - https://owasp.org/www-project-mobile-top-10/2014-risks/m3-insufficient-transport-layer-protection
+      technology:
+        - http
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#send-sms
+    languages:
+      - dart
+    pattern-either:
+      - pattern-regex: flutter_sms\.dart
+      - pattern-regex: sendSMS
+    paths:
+      include:
+        - "*.dart"

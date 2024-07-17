@@ -1,0 +1,38 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: xss-attack
+    message: Sensitive information should never be sent over insecure channels such as sms.
+    severity: MEDIUM
+    metadata:
+      likelihood: LOW
+      impact: MODERATE
+      confidence: LOW
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      references:
+        - https://cwe.mitre.org/data/definitions/79.html
+      technology:
+        - xss
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#prevent-xss-attack
+    languages:
+      - dart
+    pattern-regex: Element\.html\(
+    paths:
+      include:
+        - "*.dart"
