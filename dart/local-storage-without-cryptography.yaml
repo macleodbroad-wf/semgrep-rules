@@ -1,0 +1,53 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: local-storage-without-cryptography
+    message: Use of local storage without cryptography. While useful to speed applications up on the client side, it can be dangerous to store sensitive information this way because the data is not encrypted by default and any script on the page may access it. This rule raises an issue when the SharedPreferences and local-storage APIs are used.
+    severity: INFO
+    metadata:
+      likelihood: LOW
+      impact: HIGH
+      confidence: LOW
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-311: Missing Encryption of Sensitive Data"
+      owasp:
+        - "A3:2017-Sensitive Data Exposure"
+      references:
+        - https://cwe.mitre.org/data/definitions/311.html
+        - https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure.html
+      technology:
+        - cryptography
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#usage-local-data-without-cryptography
+    languages:
+      - dart
+    pattern-either:
+      - pattern: _prefs.$METHOD(...)
+      - pattern: prefs.$METHOD(...)
+      - pattern: sharedPrefs.$METHOD(...)
+      - pattern: preferences.$METHOD(...)
+    metavariable-regex:
+      metavariable: $METHOD
+      regex: (setInt|setDouble|setBool|setString|setStringList)
+    paths:
+      include:
+        - "*.dart"
+      exclude:
+        - "**/test/**"
+        - "**/example/*"
+        - "*/build/*"
+        - "*_test.dart"

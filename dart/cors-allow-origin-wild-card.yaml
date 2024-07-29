@@ -1,0 +1,43 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: cors-allow-origin-wild-card
+    message: Cross-Origin Resource Sharing (CORS) allows a service to disable the browser’s Same-origin policy, which prevents scripts on an attacker-controlled domain from accessing resources and data hosted on a different domain. The CORS Access-Control-Allow-Origin HTTP header specifies the domain with permission to invoke a cross-origin service and view the response data. Configuring the Access-Control-Allow-Origin header with a wildcard (*) can allow code running on an attacker-controlled domain to view responses containing sensitive data. For more information checkout the CWE-942 (https://cwe.mitre.org/data/definitions/942.html) advisory.
+    severity: MEDIUM
+    metadata:
+      likelihood: LOW
+      impact: HIGH
+      confidence: HIGH
+      category: security
+      subcategory:
+        - vuln
+      cwe:
+        - "CWE-942: Overly Permissive Cross-domain Whitelist"
+      references:
+        - https://cwe.mitre.org/data/definitions/942.html
+      technology:
+        - cors
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#cors-allow-origin-wild-card
+    languages:
+      - dart
+    pattern-regex: Access-Control-Allow-Origin.*\*
+    paths:
+      include:
+        - "*.dart"
+      exclude:
+        - "**/test/**"
+        - "**/example/*"
+        - "*/build/*"
+        - "*_test.dart"

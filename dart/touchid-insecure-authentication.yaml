@@ -1,0 +1,43 @@
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+rules:
+  - id: touchid-insecure-authentication
+    message: If the mobile app uses a feature like TouchID, it suffers from insecure authentication.
+    severity: INFO
+    metadata:
+      likelihood: MEDIUM
+      impact: SEVERE
+      confidence: MEDIUM
+      category: security
+      subcategory:
+        - vuln
+      owasp:
+        - "M4: Insecure Authentication"
+      references:
+        - https://owasp.org/www-project-mobile-top-10/2016-risks/m4-insecure-authentication
+      technology:
+        - touchID
+      source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#no-use-biometrics-types-face-or-fingerprint-for-login-in-account
+    languages:
+      - dart
+    pattern-regex: (getAvailableBiometrics).*(contains\(BiometricType\.face\))|(contains\(BiometricType\.fingerprint\))
+    paths:
+      include:
+        - "*.dart"
+      exclude:
+        - "**/test/**"
+        - "**/example/*"
+        - "*/build/*"
+        - "*_test.dart"
