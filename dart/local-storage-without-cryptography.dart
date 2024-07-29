@@ -17,19 +17,13 @@ final CpfExposedFromUserInput = "";
 
 void onButtonClick() async {
 try {
-  var value = await ValidateCPFPost(CpfExposedFromUserInput)
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var value = await ValidateCPFPost(CpfExposedFromUserInput);
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
 
   // Possible Vulnerable Code: exposed identity of the user in local machine
-  prefs.setString('cpf', CpfExposedFromUser);
+  _prefs.setString('cpf', value);
 
 } on HttpException {
 
   }
 }
-// TODO: Not sure why semgrep is failing here with:
-//
-//  Partially analyzed due to parsing or internal Semgrep errors
-//
-//    • local-storage-without-cryptography.dart (2 lines
-//      skipped)

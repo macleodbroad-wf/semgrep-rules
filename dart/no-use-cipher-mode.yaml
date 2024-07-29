@@ -47,3 +47,8 @@ rules:
     paths:
       include:
         - "*.dart"
+      exclude:
+        - "**/test/**"
+        - "**/example/*"
+        - "*/build/*"
+        - "*_test.dart"

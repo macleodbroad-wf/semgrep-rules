@@ -35,9 +35,19 @@ rules:
       source_rule_url: https://docs.horusec.io/docs/cli/analysis-tools/open-source-horusec-engine/horusec-dart/#usage-local-data-without-cryptography
     languages:
       - dart
-    patterns:
-      - pattern-regex: SharedPreferences\.getInstance
-      - pattern-regex: \.(setInt|setDouble|setBool|setString|setStringList)\(.*,.*\)
+    pattern-either:
+      - pattern: _prefs.$METHOD(...)
+      - pattern: prefs.$METHOD(...)
+      - pattern: sharedPrefs.$METHOD(...)
+      - pattern: preferences.$METHOD(...)
+    metavariable-regex:
+      metavariable: $METHOD
+      regex: (setInt|setDouble|setBool|setString|setStringList)
     paths:
       include:
         - "*.dart"
+      exclude:
+        - "**/test/**"
+        - "**/example/*"
+        - "*/build/*"
+        - "*_test.dart"
