@@ -22,5 +22,5 @@ static Future<HttpServer> SentToApi(
   bool shared = false}
 ) {
   // Possible vulnerable code: HTTP without SSL is not secure.
-  return _HttpServer.bindSecure('http://my-api.com.br', port, context, backlog, v6Only, requestClientCertificate, shared);
+  return _HttpServer.bindSecure('http://127.0.0.1', port, context, backlog, v6Only, requestClientCertificate, shared);
 }
